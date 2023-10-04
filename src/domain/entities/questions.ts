@@ -4,6 +4,7 @@ interface Props {
   title: string;
   content: string;
   authorId: string;
+  slug: string;
 }
 
 export class Question {
@@ -11,11 +12,13 @@ export class Question {
   public title: string;
   public content: string;
   public authorId: string;
+  public slug: string;
 
   constructor(props: Props, id?: string) {
     this.id = id ?? randomUUID();
     this.title = props.title;
     this.content = props.content;
     this.authorId = props.authorId;
+    this.slug = props.slug;
   }
 }

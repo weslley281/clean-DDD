@@ -1,22 +1,29 @@
-import { expect, test } from 'vitest';
-import { AnswerQuestionsUseCase } from './answer-questions';
-import { AnswerRepository } from '../repositories/answers-repository';
+import { UniqueEntityID } from '../../core/entities/unique-entity-id';
 import { Answer } from '../entities/answer';
+import { AnswersRepository } from '../repositories/answers-repository';
 
-const fakeAnswerRepository: AnswerRepository = {
-  create: async function (answer: Answer): Promise<void> {
-    return;
-  },
-};
+interface AnswerQuestionUseCaseRequest {
+  instructorId: string;
+  questionId: string;
+  content: string;
+}
 
-test('creat an answer', async () => {
-  const answerQuestion = new AnswerQuestionsUseCase(fakeAnswerRepository);
+export class AnswerQuestionUseCase {
+  constructor(private answersRepository: AnswersRepository) {}
 
-  const answer = await answerQuestion.execute({
-    content: 'Nova resposta',
-    questionId: '1',
-    instructorId: '2',
-  });
+  async execute({
+    instructorId,
+    questionId,
+    content,
+  }: AnswerQuestionUseCaseRequest) {
+    const answer = Answer.create({
+      content,
+      authorId: new UniqueEntityID(instructorId),
+      questionId: new UniqueEntityID(questionId),
+    });
 
-  expect(answer.content).toEqual('Nova resposta');
-});
+    await this.answersRepository.create(answer);
+
+    return answer;
+  }
+}

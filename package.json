@@ -11,7 +11,9 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.6.4",
+    "i": "^0.3.7",
     "typescript": "^5.2.2",
+    "vite-tsconfig-paths": "^4.2.1",
     "vitest": "^0.34.6"
   },
   "dependencies": {

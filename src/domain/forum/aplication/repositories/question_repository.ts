@@ -1,6 +1,8 @@
 import { Question } from '../../enterprise/entities/questions';
 
-export interface QuestionRepository {
-  create(question: Question): Promise<void>;
+export interface QuestionsRepository {
+  findById(id: string): Promise<Question | null>;
   findBySlug(slug: string): Promise<Question | null>;
+  create(question: Question): Promise<void>;
+  delete(question: Question): Promise<void>;
 }

@@ -1,4 +1,4 @@
-import { QuestionsRepository } from '../repositories/question_repository';
+import { QuestionRepository } from '../repositories/question_repository';
 
 interface Request {
   authorId: string;
@@ -8,7 +8,7 @@ interface Request {
 interface Response {}
 
 export class DeleteQuestionUseCase {
-  constructor(private questionsRepository: QuestionsRepository) {}
+  constructor(private questionsRepository: QuestionRepository) {}
 
   async execute({ questionId, authorId }: Request): Promise<Response> {
     const question = await this.questionsRepository.findById(questionId);

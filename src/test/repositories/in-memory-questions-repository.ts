@@ -1,7 +1,7 @@
 import { QuestionsRepository } from '@/domain/forum/aplication/repositories/question_repository';
 import { Question } from '@/domain/forum/enterprise/entities/questions';
 
-export class InMemoryQuestionRepository implements QuestionsRepository {
+export class InMemoryQuestionsRepository implements QuestionsRepository {
   public items: Question[] = [];
 
   async create(question: Question): Promise<void> {

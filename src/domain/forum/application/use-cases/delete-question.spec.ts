@@ -1,14 +1,15 @@
-import { InMemoryQuestionRepository } from '@/test/repositories/in-memory-questions-repository';
+import { InMemoryQuestionsRepository } from '@/test/repositories/in-memory-questions-repository';
 import { DeleteQuestionUseCase } from './delete-question';
+
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { makeQuestion } from '@/test/factories/make-question';
 
-let inMemoryQuestionsRepository: InMemoryQuestionRepository;
+let inMemoryQuestionsRepository: InMemoryQuestionsRepository;
 let sut: DeleteQuestionUseCase;
 
 describe('Delete Question', () => {
   beforeEach(() => {
-    inMemoryQuestionsRepository = new InMemoryQuestionRepository();
+    inMemoryQuestionsRepository = new InMemoryQuestionsRepository();
     sut = new DeleteQuestionUseCase(inMemoryQuestionsRepository);
   });
 

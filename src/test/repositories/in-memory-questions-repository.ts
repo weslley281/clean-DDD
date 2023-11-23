@@ -1,5 +1,5 @@
 import { QuestionsRepository } from '@/domain/forum/aplication/repositories/question_repository';
-import { Question } from '@/domain/forum/enterprise/entities/questions';
+import { Question } from '@/domain/forum/enterprise/entities/question';
 
 export class InMemoryQuestionsRepository implements QuestionsRepository {
   public items: Question[] = [];

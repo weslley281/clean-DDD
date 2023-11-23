@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
-import { Question } from '../../enterprise/entities/questions';
+import { Question } from '../../enterprise/entities/question';
 import { QuestionRepository } from '../repositories/question_repository';
 
 interface Request {

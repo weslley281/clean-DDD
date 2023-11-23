@@ -1,50 +1,28 @@
-import { DeleteAnswerUseCase } from './delete-answer';
-import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository';
-import { makeAnswer } from 'test/factories/make-answer';
-import { UniqueEntityID } from '@/core/entities/unique-entity-id';
+import { QuestionsRepository } from '../repositories/question_repository';
 
-let inMemoryAnswersRepository: InMemoryAnswersRepository;
-let sut: DeleteAnswerUseCase;
+interface Request {
+  authorId: string;
+  questionId: string;
+}
 
-describe('Delete Answer', () => {
-  beforeEach(() => {
-    inMemoryAnswersRepository = new InMemoryAnswersRepository();
-    sut = new DeleteAnswerUseCase(inMemoryAnswersRepository);
-  });
+interface Response {}
 
-  it('should be able to delete a answer', async () => {
-    const newAnswer = makeAnswer(
-      {
-        authorId: new UniqueEntityID('author-1'),
-      },
-      new UniqueEntityID('answer-1')
-    );
+export class DeleteQuestionUseCase {
+  constructor(private questionsRepository: QuestionsRepository) {}
 
-    await inMemoryAnswersRepository.create(newAnswer);
+  async execute({ questionId, authorId }: Request): Promise<Response> {
+    const question = await this.questionsRepository.findById(questionId);
 
-    await sut.execute({
-      answerId: 'answer-1',
-      authorId: 'author-1',
-    });
+    if (!question) {
+      throw new Error('Question not found.');
+    }
 
-    expect(inMemoryAnswersRepository.items).toHaveLength(0);
-  });
+    if (authorId !== question.authorId.toString()) {
+      throw new Error('Not allowed.');
+    }
 
-  it('should not be able to delete a answer from another user', async () => {
-    const newAnswer = makeAnswer(
-      {
-        authorId: new UniqueEntityID('author-1'),
-      },
-      new UniqueEntityID('answer-1')
-    );
+    await this.questionsRepository.delete(question);
 
-    await inMemoryAnswersRepository.create(newAnswer);
-
-    expect(() => {
-      return sut.execute({
-        answerId: 'answer-1',
-        authorId: 'author-2',
-      });
-    }).rejects.toBeInstanceOf(Error);
-  });
-});
+    return {};
+  }
+}
